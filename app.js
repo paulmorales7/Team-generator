@@ -10,7 +10,57 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const EmployeeArr = [];
+const EmployeeArr = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is your name?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is your email?"
+    },
+    {
+        type: "checkbox",
+        message: "What is your id?",
+        choices: [
+            "Engineer",
+            "Intern",
+            "Manager"
+        ],
+        name: "id",
+    },
+    {
+        type: "input",
+        name: "school",
+        message: "What school did you attend?"
+    },
+    {
+        type: "input",
+        name: "github",
+        message: "What is your github account?"
+    },
+    {
+        type: "input",
+        name: "office number",
+        message: "What is your office number?"
+    }
+
+];
+
+function init() {
+    inquirer.prompt(EmployeeArr).then(function (answers) {
+
+        const renderanswers = render(answers);
+        console.log(renderanswers)
+
+    })
+}
+
+
+init();
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
