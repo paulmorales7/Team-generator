@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const generateHtml = require("./Output/generateHtml");
 
 const globalArr = [];
 
@@ -51,14 +52,22 @@ const EmployeeArr = [
 
 ];
 
+function createFile(filename, data) {
+    fs.createFile(filename, data, function (err) {
+        if (err) {
+            throw err;
+        }
+    })
+}
+
 function init() {
     inquirer.prompt(EmployeeArr).then((Responses) => {
         globalArr.push(Responses)
+
+        const teamHtml = generateHtml(Responses)
+        console.log(teamHtml)
+        createFile('Team.html', teamHtml)
     })
-
-
-
-    render(globalArr)
 
 }
 
