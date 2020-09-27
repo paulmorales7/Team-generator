@@ -45,22 +45,26 @@ const EmployeeArr = [
     },
     {
         type: "input",
-        name: "office number",
+        name: "officeNumber",
         message: "What is your office number?"
     }
 
 ];
 
 function init() {
-    inquirer.prompt(EmployeeArr).then.push(globalArr)
+    inquirer.prompt(EmployeeArr).then((Responses) => {
+        globalArr.push(Responses)
+    })
 
 
+
+    render(globalArr)
 
 }
 
 
 
-init(globalArr);
+init();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
