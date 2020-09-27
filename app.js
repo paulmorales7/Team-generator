@@ -10,6 +10,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const globalArr = [];
+
 const EmployeeArr = [
     {
         type: "input",
@@ -50,16 +52,15 @@ const EmployeeArr = [
 ];
 
 function init() {
-    inquirer.prompt(EmployeeArr).then(function (answers) {
+    inquirer.prompt(EmployeeArr).then.push(globalArr)
 
-        const renderanswers = render(answers);
-        console.log(renderanswers)
 
-    })
+
 }
 
 
-init();
+
+init(globalArr);
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
