@@ -53,7 +53,7 @@ const EmployeeArr = [
 ];
 
 function createFile(filename, data) {
-    fs.createFile(filename, data, function (err) {
+    fs.writeFile(filename, data, function (err) {
         if (err) {
             throw err;
         }
@@ -66,7 +66,7 @@ function init() {
 
         const teamHtml = generateHtml(Responses)
         console.log(teamHtml)
-        createFile('Team.html', teamHtml)
+        writeFile('Team.html', teamHtml)
     })
 
 }
