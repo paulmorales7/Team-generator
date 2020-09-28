@@ -64,9 +64,13 @@ function init() {
     inquirer.prompt(EmployeeArr).then((Responses) => {
         globalArr.push(Responses)
 
-        const teamHtml = generateHtml(Responses)
+        const teamHtml = generateHtml(globalArr)
         console.log(teamHtml)
-        writeFile('Team.html', teamHtml)
+        fs.writeFile('Team.html', teamHtml, "utf8", function (err) {
+            if (err) {
+                throw err;
+            }
+        })
     })
 
 }
