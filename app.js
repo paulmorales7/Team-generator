@@ -66,7 +66,7 @@ function init() {
 
         const teamHtml = generateHtml(globalArr)
         console.log(teamHtml)
-        fs.writeFile('Team.html', teamHtml, "utf8", function (err) {
+        fs.writeFile('Team.html', teamHtml, render(globalArr), "utf8", function (err) {
             if (err) {
                 throw err;
             }
