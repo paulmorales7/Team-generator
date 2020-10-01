@@ -9,76 +9,198 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const generateHtml = require("./Output/generateHtml");
 
-const globalArr = [];
+const teamArr = [];
 
-const EmployeeArr = [
-    {
-        type: "input",
-        name: "name",
-        message: "What is your name?"
-    },
-    {
-        type: "input",
-        name: "email",
-        message: "What is your email?"
-    },
-    {
-        type: "checkbox",
-        message: "What is your id?",
-        choices: [
-            "Engineer",
-            "Intern",
-            "Manager"
-        ],
-        name: "id",
-    },
-    {
-        type: "input",
-        name: "school",
-        message: "What school did you attend?"
-    },
-    {
-        type: "input",
-        name: "github",
-        message: "What is your github account?"
-    },
-    {
-        type: "input",
-        name: "officeNumber",
-        message: "What is your office number?"
-    }
+function employeeInfo() {
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "What type of employee would you like add?",
+            name: "name",
+            choices: ["Intern", "Engineer", "Manager", "Complete"],
+        },
+    ]).then(input => {
+        if (input.name === "Intern") {
+            internInfo();
+        } else if (input.name === "Engineer") {
+            engineerInfo();
+        } else if (input.name === "Manager") {
+            managerInfo();
+        } else if (input.name === "Complete") {
+            generateHTML(outputPath, render(teamArr));
+        };
+    });
+};
 
-];
+function managerInfo() {
+    return inquirer.prompt([
+        {
+            message: "What is the manager's name?",
+            name: "name"
+        },
+        {
+            message: "What is the manager's id?",
+            name: "id"
+        },
+        {
+            message: "What is the manager's email?",
+            name: "email"
+        },
+        {
+            message: "What is the manager's office number?",
+            name: "officeNumber"
+        },
+    ]).then(function (data) {
+        let manager = new Manager(data.name, data.id, data.email, data.officeNumber)
+        teamArr.push(manager);
 
-function createFile(filename, data) {
-    fs.writeFile(filename, data, function (err) {
+        employeeInfo()
+    })
+};
+
+function engineerInfo() {
+    return inquirer.prompt([
+        {
+            message: "What is the engineer's name?",
+            name: "name"
+        },
+        {
+            message: "What is the engineer's id?",
+            name: "id"
+        },
+        {
+            message: "What is the engineer's email?",
+            name: "email"
+        },
+        {
+            message: "What is the engineer's Github username?",
+            name: "github"
+        }
+    ]).then(function (data) {
+        let engineer = new Engineer(data.name, data.id, data.email, data.github)
+        teamArr.push(engineer);
+
+        employeeInfo();
+    })
+};
+
+function internInfo() {
+    return inquirer.prompt([
+        {
+            message: "What is the intern's name?",
+            name: "name"
+        },
+        {
+            message: "What is the intern's id?",
+            name: "id"
+        },
+        {
+            message: "What is the intern's email?",
+            name: "email"
+        },
+        {
+            message: "What school does the intern go to?",
+            name: "school"
+        }
+    ]).then(function (data) {
+        let intern = new Intern(data.name, data.id, data.email, data.school)
+        teamArr.push(intern);
+
+        employeeInfo();
+    })
+};
+
+function generateHTML(fileName, data) {
+    fs.writeFile(fileName, data, "utf8", function (err) {
         if (err) {
             throw err;
         }
-    })
-}
+        console.log("All done! Your team info is now complete!");
+    });
+};
 
-function init() {
-    inquirer.prompt(EmployeeArr).then((Responses) => {
-        globalArr.push(Responses)
+employeeInfo();
 
-        const teamHtml = generateHtml(globalArr)
-        console.log(teamHtml)
-        fs.writeFile('Team.html', teamHtml, render(globalArr), "utf8", function (err) {
-            if (err) {
-                throw err;
-            }
-        })
-    })
+//const generateHtml = require("./Output/generateHtml");
 
-}
+// const globalArr = [];
+
+// const EmployeeArr = [
+//     {
+//         type: "input",
+//         name: "name",
+//         message: "What is your name?"
+//     },
+//     {
+//         type: "input",
+//         name: "email",
+//         message: "What is your email?"
+//     },
+//     {
+//         type: "checkbox",
+//         message: "What is your id?",
+//         choices: [
+//             "Engineer",
+//             "Intern",
+//             "Manager"
+//         ],
+//         name: "id",
+//     },
+//     {
+//         type: "input",
+//         name: "school",
+//         message: "What school did you attend?"
+//     },
+//     {
+//         type: "input",
+//         name: "github",
+//         message: "What is your github account?"
+//     },
+//     {
+//         type: "input",
+//         name: "officeNumber",
+//         message: "What is your office number?"
+//     }
+
+// ];
+
+
+// function createFile(filename, data) {
+//     fs.writeFile(filename, data, function (err) {
+//         if (err) {
+//             throw err;
+//         }
+//     })
+// }
+
+// function init() {
+//     inquirer.prompt(EmployeeArr).then((Responses) => {
+//         globalArr.push(Responses)
+
+//         const managerInfo = new Manager(this.name, this.Id, this.email, this.officeNumber);
+//         globalArr.push(managerInfo);
+
+//         const engineerInfo = new Engineer(this.name, this.Id, this.email, this.github);
+//         globalArr.push(engineerInfo);
+
+//         const internInfo = new Intern(this.name, this.Id, this.email, this.school);
+//         globalArr.push(internInfo);
+
+//         const teamHtml = generateHtml(globalArr)
+//         console.log(teamHtml)
+//         fs.writeFile('Team.html', teamHtml, render(globalArr), "utf8", function (err) {
+//             if (err) {
+//                 throw err;
+//             }
+//         })
+//     })
+
+// }
 
 
 
-init();
-
+// init();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 

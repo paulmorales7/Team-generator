@@ -1,0 +1,20 @@
+body{
+    background-image: url("https://sharegate.com/app/uploads/2020/05/jasper-recommendedupdates-v20-04-23-featured.png");
+}
+
+#jumbo{
+    background-color: transparent;
+}
+
+.text-center{
+    color: white;
+    font-family: 'Piazzolla', serif;
+}
+
+.card-header{
+background-color: gold;
+}
+
+.list-group{
+    font-weight: bold;
+}
